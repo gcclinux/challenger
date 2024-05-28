@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Require for cross platforms
+### `npm install --save-dev cross-env`
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -6,19 +6,25 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [submittedValue, setSubmittedValue] = useState('');
   const [score, setScore] = useState(0);
-  const [countdown, setCountdown] = useState(null);
+  const [countdown, setCountdown] = useState('Press Enter to Start!');
   const [inputsArray, setInputsArray] = useState([]);
+  const [displayValue, setDisplayValue] = useState(null);
 
   const wordsArray = ['Go', 'Golang', 'React', 'JavaScript', 'Python' , 'Java' , 'C++' , 'C#' , 'Ruby' , 'Rust' , 'Swift' , 'Kotlin' , 'TypeScript' , 'PHP' , 'HTML' , 'CSS' , 'SQL' , 'NoSQL'];
 
   const handleKeyPress = (event) => {
     if(event.key === 'Enter'){
       setSubmittedValue(inputValue);
-      setInputsArray([...inputsArray, inputValue]);
-      if(wordsArray.includes(inputValue)) {
+      if(wordsArray.includes(inputValue) && !inputsArray.includes(inputValue)) {
         setScore(score + 1000);
+        setDisplayValue('OK');
+      } else if (inputValue.trim() !== '' && !wordsArray.includes(inputValue)) {
+        setDisplayValue('ERROR');
+      } else if (inputValue.trim() !== '' && inputsArray.includes(inputValue)){
+        setDisplayValue('DUPLICATE');
       }
-      if(countdown === null) {
+      setInputsArray(prevInputsArray => [...prevInputsArray, inputValue]);
+      if(countdown === 'Press Enter to Start!') {
         setCountdown(60);
       }
       setInputValue('');
@@ -43,7 +49,7 @@ function App() {
         
         <p>Score: {score}</p>
 
-        <label>Enter valid programming languages:</label>
+        <label>Enter only valid programming languages!</label>
         <br />
         <input
           type="text"
@@ -52,8 +58,11 @@ function App() {
           onChange={e => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
           readOnly={countdown <= 0}
+          autoFocus
         />
-        {submittedValue && (wordsArray.includes(submittedValue) ? <p>{submittedValue} OK</p> : <p>{submittedValue} Incorrect</p>)}
+      {displayValue && (
+        <p>{submittedValue} {displayValue}</p>
+      )}
       </header>
     </div>
   );

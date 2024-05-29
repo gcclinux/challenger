@@ -3,71 +3,64 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Require for cross platforms
-### `npm install --save-dev cross-env`
+`npm install --save-dev cross-env`
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+```
+npm create vite@latest
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+√ Project name: ... vite-project
+√ Select a framework: » React
+√ Select a variant: » JavaScript + SWC
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+cd vite-project
+npm install
+npm run dev
+```
 
-### `npm test`
+## To run the project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+cd vite-project
+npm run dev
+```
 
-### `npm run build`
+## Update server port
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To change the port for a React application that uses Vite, you can set the port option in the vite.config.js file. If you don't have a vite.config.js file in your project root, you can create one.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Example:
+```
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3001
+  },
+})
+```
 
-### `npm run eject`
+Another way is using npm run dev, you can modify the script in your package.json file to include the --port option. Here's how you can do it:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Example (added line "test": "vite --port 3024",):
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+  "scripts": {
+    "dev": "vite",
+    "test": "vite --port 3024",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  ```
+  With the above example you can run your project like this:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+cd vite-project
+npm run test
+```

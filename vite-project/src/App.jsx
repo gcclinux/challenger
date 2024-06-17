@@ -12,11 +12,12 @@ function App() {
   const [displayValue, setDisplayValue] = useState(null);
 
   const wordsArray = ['Go', 'Golang', 'React', 'JavaScript', 'Python' , 'Java' , 'C++' , 'C#' , 'Ruby' , 'Rust' , 'Swift' , 'Kotlin' , 'TypeScript' , 'PHP' , 'HTML' , 'CSS' , 'SQL' , 'NoSQL'];
+  const lowerCaseInutValue = inputValue.toLowerCase();
 
   const handleKeyPress = (event) => {
     if(event.key === 'Enter'){
       setSubmittedValue(inputValue);
-      if(wordsArray.includes(inputValue) && !inputsArray.includes(inputValue)) {
+      if(wordsArray.map(word => word.toLowerCase()).includes(lowerCaseInutValue) && !inputsArray.includes(inputValue)) {
         setScore(score + 1000);
         setDisplayValue('OK');
       } else if (inputValue.trim() !== '' && !wordsArray.includes(inputValue)) {

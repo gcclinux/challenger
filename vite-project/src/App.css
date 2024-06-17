@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+
+.app {
+  display: flex;
+  justify-content: space-between;
+}
+
+.panel {
+  width: 200px; /* Adjust width as needed */
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding: 20px;
+  box-shadow: -2px 0 4px rgba(0,0,0,0.2);
+}

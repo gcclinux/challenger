@@ -1,9 +1,21 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+function Panel({ message, score }) {
+  return (
+    <div className="panel">
+      <p>{message}</p>
+      <p>Total Score: {score}</p>
+    </div>
+  );
+}
+
 function App() {
+  const [message, setMessage] = useState("Welcome!");
+  const [totalScore, setTotalScore] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [submittedValue, setSubmittedValue] = useState('');
   const [score, setScore] = useState(0);
@@ -73,6 +85,7 @@ function App() {
         <p>{submittedValue} {displayValue}</p>
       )}
       </header>
+      <Panel message={message} score={totalScore} />
     </div>
   );
 }

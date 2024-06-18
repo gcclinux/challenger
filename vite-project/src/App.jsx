@@ -14,7 +14,8 @@ function Panel({ message, score }) {
 }
 
 function App() {
-  const [message, setMessage] = useState("Welcome!");
+  const [message, setMessage] = useState("Maximize your score by entering valid programming languages before the countdown ends");
+  const [startmsg, setStartMsg] = useState('Enter only valid programming languages!');
   const [totalScore, setTotalScore] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [submittedValue, setSubmittedValue] = useState('');
@@ -45,11 +46,15 @@ function App() {
   }
 
   useEffect(() => {
-    if(countdown > 0) {
+    if (countdown > 0) {
       const timer = setTimeout(() => {
         setCountdown(countdown - 1);
       }, 1000);
       return () => clearTimeout(timer);
+    } else if (countdown === 0) {
+      setTotalScore(score);
+      setMessage('Game Over! Reload to Restart!');
+      setStartMsg('Game Over! Reload to Restart!');
     }
   }, [countdown]);
 
@@ -70,7 +75,7 @@ function App() {
         
         <p>Score: {score}</p>
 
-        <label>Enter only valid programming languages!</label>
+        <label>{startmsg}</label>
         <br /><br />
         <input
           type="text"

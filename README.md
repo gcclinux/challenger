@@ -64,3 +64,9 @@ Another way is using npm run dev, you can modify the script in your package.json
 cd vite-project
 npm run test
 ```
+
+Example Screenshot 1
+![Image 1](images/image1.png)
+
+Example Screenshot 2
+![Image 2](images/image2.png)

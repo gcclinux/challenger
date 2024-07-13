@@ -4,21 +4,25 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-function Panel({ message, score }) {
+function Panel({ message, score, userName }) {
   return (
     <div className="panel">
       <p>{message}</p>
-      <p>Total Score: {score}</p>
+      <p>
+        {userName && score !== 0 && (
+          <p>
+            {userName} ({score})
+          </p>
+        )}
+      </p>
     </div>
   );
 }
 
 function App() {
-  const [message, setMessage] = useState(
-    "Maximize your score by entering valid programming languages before the countdown ends"
-  );
+  const [message, setMessage] = useState("~ LEADERBOARD ~");
   const [startmsg, setStartMsg] = useState(
-    "Enter only valid programming languages!"
+    "Maximize your score by entering valid programming languages before the countdown ends"
   );
   const [totalScore, setTotalScore] = useState(0);
   const [inputValue, setInputValue] = useState("");
@@ -86,8 +90,7 @@ function App() {
       return () => clearTimeout(timer);
     } else if (countdown === 0) {
       setTotalScore(score);
-      setMessage("Game Over! Reload to Restart!");
-      setStartMsg("Game Over! Reload to Restart!");
+      setStartMsg("Game Over! F5 to Restart!");
       setShowNameInput(true);
     }
   }, [countdown]);
@@ -153,6 +156,11 @@ function App() {
                 type="text"
                 placeholder="Enter your name"
                 onBlur={handleNameSubmit} // Handle submission on input blur
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    handleNameSubmit(e);
+                  }
+                }} // Handle submission on Enter key press
                 autoFocus
                 style={{
                   fontSize: "16px", // Larger font size for better readability
@@ -166,7 +174,7 @@ function App() {
         )}
         {userName && <div>Name: {userName}</div>}
       </header>
-      <Panel message={message} score={totalScore} />
+      <Panel message={message} userName={userName} score={totalScore} />
     </div>
   );
 }

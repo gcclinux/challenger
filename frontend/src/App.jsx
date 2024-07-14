@@ -55,6 +55,7 @@ function App() {
     "NoSQL",
   ];
 
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       setSubmittedValue(inputValue);
@@ -159,6 +160,20 @@ function App() {
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     handleNameSubmit(e);
+                    fetch('/api/append', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ userName: {userName}, totalScore }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                      console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                      console.error('Error:', error);
+                    });
                   }
                 }} // Handle submission on Enter key press
                 autoFocus

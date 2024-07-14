@@ -16,16 +16,24 @@ npm create vite@latest
 √ Select a framework: » React
 √ Select a variant: » JavaScript + SWC
 
-cd vite-project
+mv vite-project challenger
+mkdir -p challenger/frontend challenger/backend
+
+cd challenger/frontend
 npm install
-npm run dev
+
+cd challenger/backend
+npm install express body-parser fs
 ```
 
 ## To run the project
 
 ```
-cd vite-project
+cd challenger/frontend
 npm run dev
+
+cd challenger/backend
+node server.js
 ```
 
 ## Update server port

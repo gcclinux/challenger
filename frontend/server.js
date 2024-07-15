@@ -75,6 +75,7 @@ app.get('/scores', (req, res) => {
       console.log(`Data after parsing and before sorting: ${JSON.stringify(scores).substring(0, 100)}...`);
 
       scores.sort((a, b) => b.score - a.score);
+      scores = scores.slice(0, 10); // Limit to top 10 scores
 
       console.log(`Data being provided to client: ${JSON.stringify(scores).substring(0, 100)}...`);
       res.setHeader('Content-Type', 'application/json'); // Explicitly set the Content-Type header

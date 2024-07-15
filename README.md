@@ -17,12 +17,13 @@ npm create vite@latest
 √ Select a variant: » JavaScript + SWC
 
 mv vite-project challenger
-mkdir -p challenger/frontend challenger/backend
+mkdir -p challenger/frontend
 
 cd challenger/frontend
+## Install Vite requirements
 npm install
 
-cd challenger/backend
+## Install specific server side requirements
 npm install express body-parser fs
 ```
 

@@ -4,23 +4,48 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
+// Serve the frontend Panel with the leaderboard
 function Panel({ message, score, userName }) {
+  const [scores, setScores] = useState([]);
+
+  useEffect(() => {
+    fetch('/scores')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      // Check if the response is JSON before attempting to parse it
+      const contentType = response.headers.get('Content-Type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return response.text().then(text => {
+          throw new Error(`Expected JSON, but got text: ${text}`);
+        });
+      }
+      return response.json(); // If JSON, parse it directly
+    })
+    .then(data => {
+      console.log('Fetched scores:', data);
+      setScores(data);
+    })
+    .catch(error => console.error('Error fetching scores:', error));
+  }, []);
+
   return (
-    <div className="panel">
+    // Display the leaderboard panel content
+    <div className="panel" style={{ textAlign: "left" }}>
       <p>{message}</p>
-      <p>
-        {userName && score !== 0 && (
-          <p>
-            {userName} ({score})
-          </p>
-        )}
-      </p>
+      {userName && score !== 0 && <p style={{ color: "red" }}>{userName} ({score})</p>}
+      <div>
+          {scores.map((item, index) => (
+            <p key={index} style={{ fontSize: "12px", fontWeight: "normal", color: "blue" }}>{item.userName} ({item.score})</p>
+          ))}
+      </div>
     </div>
   );
 }
 
 function App() {
-  const [message, setMessage] = useState("~ LEADERBOARD ~");
+  const [message] = useState("~ LEADERBOARD ~");
   const [startmsg, setStartMsg] = useState(
     "Maximize your score by entering valid programming languages before the countdown ends"
   );
@@ -53,8 +78,10 @@ function App() {
     "CSS",
     "SQL",
     "NoSQL",
+    "MongoDB",
+    "PostgreSQL",
+    "Vite",
   ];
-
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -78,9 +105,35 @@ function App() {
     }
   };
 
-  const handleNameSubmit = (event) => {
-    setUserName(event.target.value); // Update userName with the input
+  const handleNameSubmit = async (e) => {
+    const newName = e.target.value; 
+    setUserName(newName); // Update userName with the input
     setShowNameInput(false); // Hide the input popup
+
+    await handleSubmit(newName, totalScore);
+  };
+
+
+  // Function to handle the submission of userName and totalScore
+  const handleSubmit = async (name, score) => {
+    try {
+      const response = await fetch('/api/append', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userName: name, score }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log(data.message); // Handle success response
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
   };
 
   useEffect(() => {
@@ -94,7 +147,7 @@ function App() {
       setStartMsg("Game Over! F5 to Restart!");
       setShowNameInput(true);
     }
-  }, [countdown]);
+  }, [countdown, score]);
 
   return (
     <div className="App">
@@ -160,20 +213,6 @@ function App() {
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     handleNameSubmit(e);
-                    fetch('/api/append', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({ userName: {userName}, totalScore }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                      console.log('Success:', data);
-                    })
-                    .catch((error) => {
-                      console.error('Error:', error);
-                    });
                   }
                 }} // Handle submission on Enter key press
                 autoFocus
@@ -187,9 +226,9 @@ function App() {
             </div>
           </div>
         )}
-        {userName && <div>Name: {userName}</div>}
       </header>
       <Panel message={message} userName={userName} score={totalScore} />
+      
     </div>
   );
 }
